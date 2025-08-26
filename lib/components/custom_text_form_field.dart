@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+
+import '../constants.dart';
 
 class CustomTextFormField extends StatefulWidget {
+  TextEditingController? controller;
+
   final String title;
   CustomTextFormField({
+    this.controller,
     super.key, required this.title,
   });
 
@@ -13,15 +17,14 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool isObscure = true;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       autocorrect: false,
       cursorColor: kDarkPrimary1,
       obscureText: widget.title == "Email" ? false : isObscure,
       decoration: InputDecoration(
-
         label: Text(widget.title),
         suffixIcon: widget.title == "Email" ? null : IconButton(
           color: kDarkPrimary2,

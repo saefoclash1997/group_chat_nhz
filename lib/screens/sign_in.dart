@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/constants.dart';
-import 'package:group_chat_nhz/forget_password_screen.dart';
+import 'package:group_chat_nhz/screens/forget_password_screen.dart';
 import 'package:neon_widgets/neon_widgets.dart';
-import 'background_decoration.dart';
-import 'custom_button.dart';
-import 'custom_text_form_field.dart';
+import '../components/background_decoration.dart';
+import '../components/custom_button.dart';
+import '../components/custom_text_form_field.dart';
+import 'chat_screen.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +47,15 @@ class SignInScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16.0),
-                  CustomTextFormField(title: "Email"),
+                  CustomTextFormField(
+                    title: "Email",
+                    controller: emailController,
+                  ),
                   SizedBox(height: 16.0),
-                  CustomTextFormField(title: "Password"),
+                  CustomTextFormField(
+                    title: "Password",
+                    controller: passwordController,
+                  ),
                   SizedBox(height: 16.0),
                   RichText(
                     textAlign: TextAlign.center,
@@ -60,7 +70,14 @@ class SignInScreen extends StatelessWidget {
                           alignment: PlaceholderAlignment.middle,
                           child: TextButton(
                             onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPasswordScreen())) ;           
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgetPasswordScreen(
+                                    emailController: emailController,
+                                  ),
+                                ),
+                              );
                             },
                             child: Text(
                               "Click Here",
@@ -78,12 +95,7 @@ class SignInScreen extends StatelessWidget {
                       width: 160.0,
                       title: "Sign In",
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SignInScreen(),
-                          ),
-                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
                       },
                     ),
                   ),

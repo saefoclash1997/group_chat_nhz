@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'background_decoration.dart';
-import 'custom_button.dart';
-import 'custom_text_form_field.dart';
+import 'package:neon_widgets/neon_widgets.dart';
+import '../components/background_decoration.dart';
+import '../components/custom_button.dart';
+import '../components/custom_text_form_field.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -23,15 +24,15 @@ class SignUpScreen extends StatelessWidget {
                   Row(
                     children: [
                       Hero(
-
-
                           tag: "appImage",
                           child: Image.asset("assets/images/app_icon.png", width: 80)),
                       SizedBox(width: 16,),
-                      Text("Sign Up",
-                        style: TextStyle(
-                          fontSize: 35.0,
-                        ),
+                      NeonText(
+                        text: "Sign Up",
+                        spreadColor: Colors.blue.shade600,
+                        blurRadius: 20,
+                        textSize: 74,
+                        textColor: Colors.grey.shade200,
                       ),
                     ],
                   ),
@@ -66,4 +67,3 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 }
-
