@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/constants.dart';
 
@@ -74,7 +75,15 @@ topRight: Radius.circular(20.0),
          //     visible: (messageController.text.trim() == null ||  messageController.text.trim().isEmpty) ? false : true,
               child: InkWell(
                 borderRadius: BorderRadius.circular(360),
-                onTap: (){},
+                onTap: (){
+                  FirebaseFirestore.instance.collection("messages").doc().set(
+                    {
+                      "message" : messageController.text
+                    }
+                  );
+
+
+                },
                 child: Container(
                   constraints: BoxConstraints(
                     maxHeight: 40,

@@ -4,11 +4,12 @@ import '../constants.dart';
 
 class CustomTextFormField extends StatefulWidget {
   TextEditingController? controller;
-
+  String? Function(String?)? validator;
   final String title;
   CustomTextFormField({
     this.controller,
     super.key, required this.title,
+    this.validator
   });
 
   @override
@@ -20,6 +21,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: widget.validator,
       controller: widget.controller,
       autocorrect: false,
       cursorColor: kDarkPrimary1,
@@ -48,7 +50,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             borderSide: BorderSide(
                 color: kDarkPrimary2,
                 width: 3.0
+            ),
+        ),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+                color: Colors.red,
+                width: 2.0
             )
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+              color: Colors.red,
+              width: 3.0
+          ),
         ),
       ),
     );
