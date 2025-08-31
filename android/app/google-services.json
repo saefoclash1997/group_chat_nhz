@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461957002225",
+    "project_id": "nhzgroupchat",
+    "storage_bucket": "nhzgroupchat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461957002225:android:d8530acb2f929f3485ca50",
+        "android_client_info": {
+          "package_name": "com.example.group_chat_nhz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_L_ydgtXpmzW6Ap6jcn7YT90HmRUSWbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

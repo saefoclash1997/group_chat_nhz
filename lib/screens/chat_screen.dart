@@ -4,11 +4,18 @@ import 'package:group_chat_nhz/constants.dart';
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
 
+
+
+  TextEditingController messageController = TextEditingController();
   List<String> messages = ["Hello", "Hello", "My name is mmmm", "Block", "NO"];
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: Drawer(
+      ),
       appBar: AppBar(
         backgroundColor: kDarkPrimary1,
         title: Text(
@@ -51,6 +58,48 @@ topRight: Radius.circular(20.0),
 
 
       ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: TextField(
+                  controller: messageController,
+                  minLines: 1,
+                  maxLines: 5,
+
+                )),
+
+            Visibility(
+         //     visible: (messageController.text.trim() == null ||  messageController.text.trim().isEmpty) ? false : true,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(360),
+                onTap: (){},
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxHeight: 40,
+                    maxWidth: 40,
+                    minHeight: 40,
+                    minWidth: 40
+                  ),
+                    alignment: Alignment.center,
+                    width: 40, height: 40,
+                    decoration: BoxDecoration(
+                      color: kDarkPrimary2,
+                      borderRadius: BorderRadius.circular(360.0),
+
+                    ),
+
+                    child: Icon(Icons.send,
+                    color: Colors.white,
+
+                    )),
+              ),
+            )
+          ],
+        ),
+      ),
+
     );
   }
 }
