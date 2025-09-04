@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/screens/chat_screen.dart';
 import 'package:neon_widgets/neon_widgets.dart';
+import '../auth_services.dart';
 import '../components/background_decoration.dart';
 import '../components/custom_button.dart';
 import '../components/custom_text_form_field.dart';
@@ -12,8 +13,30 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  final AuthenticationServices _authenticationServices =  AuthenticationServices();
 
   final _formKey = GlobalKey<FormState>();
+
+  signUp(BuildContext context) async {
+    if(_formKey.currentState!.validate()){
+      String? errorMessage = await  _authenticationServices.signUp(
+      emailController.text.trim().toString(),
+          passwordController.text.trim().toString());
+      if(errorMessage == null){
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
+            (context)=>ChatScreen()), (route) => false,);
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(
+            errorMessage
+          ))
+        );
+      }
+
+
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +111,7 @@ class SignUpScreen extends StatelessWidget {
                         width: 160.0,
                         title: "Sign Up",
                         onPressed: () async {
-                          if(_formKey.currentState!.validate()){
-
-                          await  FirebaseAuth.instance.createUserWithEmailAndPassword(email:
-                            emailController.text.trim(), password: passwordController.text.trim());
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ChatScreen()),
-                            );
-                          }
+                          signUp(context);
 
                         },
                       ),

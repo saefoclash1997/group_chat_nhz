@@ -27,7 +27,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: Duration(milliseconds: 750),
     );
 
-    // The rest of the setup that does NOT depend on context stays here.
     offsetImage = Tween<Offset>(
       begin: Offset(-1, -2),
       end: Offset(0.0, 0.0),

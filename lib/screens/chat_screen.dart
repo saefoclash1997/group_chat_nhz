@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/constants.dart';
+import 'package:group_chat_nhz/screens/welcome_screen.dart';
+
+import '../auth_services.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
@@ -9,13 +12,24 @@ class ChatScreen extends StatelessWidget {
 
   TextEditingController messageController = TextEditingController();
   List<String> messages = ["Hello", "Hello", "My name is mmmm", "Block", "NO"];
-
+final AuthenticationServices _authenticationServices = AuthenticationServices();
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text("Sign Out"),
+              leading: Icon(Icons.logout),
+              onTap: (){
+                _authenticationServices.signOut();
+              },
+            )
+          ],
+        ),
       ),
       appBar: AppBar(
         backgroundColor: kDarkPrimary1,
