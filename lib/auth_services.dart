@@ -74,10 +74,6 @@ class AuthenticationServices{
 
 
   Future<void> signOut() async {
-    await _auth.signOut().then(
-      (value) {
-        return WelcomeScreen();
-      },
-    );
+    await _auth.signOut();
   }
 }
