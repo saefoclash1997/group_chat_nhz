@@ -5,6 +5,7 @@ import 'package:group_chat_nhz/components/loading_screen.dart';
 import 'package:group_chat_nhz/constants.dart';
 import '../apis/send_message.dart';
 import '../auth_services.dart';
+import '../components/drawer.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
@@ -16,25 +17,21 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var email = FirebaseAuth.instance.currentUser?.email;
-    return Scaffold(
-      endDrawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text("Sign Out"),
-              leading: Icon(Icons.logout),
-              onTap: () async {
-                await _authenticationServices.signOut();
-              },
-            ),
-          ],
-        ),
-      ),
+    return
+
+
+
+      Scaffold(
+      endDrawer: CustomDrawer(authenticationServices: _authenticationServices),
       appBar: AppBar(
         backgroundColor: kDarkPrimary1,
+        iconTheme: IconThemeData(
+          color: Colors.white
+        ),
         title: Text(
           "NHZ Chat",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -146,6 +143,7 @@ class ChatScreen extends StatelessWidget {
     );
   }
 }
+
 
 //
 // Container(
