@@ -4,6 +4,7 @@ import 'package:group_chat_nhz/components/loading_screen.dart';
 import 'package:group_chat_nhz/constants.dart';
 import 'package:group_chat_nhz/screens/forget_password_screen.dart';
 import 'package:neon_widgets/neon_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../auth_services.dart';
 import '../components/background_decoration.dart';
 import '../components/custom_button.dart';
@@ -26,9 +27,20 @@ class _SignInScreenState extends State<SignInScreen> {
   final AuthenticationServices _authenticationServices =  AuthenticationServices();
 
   bool isLoading = false;
+  Future<void> getUserData () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    setState(() {
+      emailController.text = prefs.getString("email") ?? "";
+      passwordController.text = prefs.getString("password") ?? "";
+    });
+  }
   final _formKey = GlobalKey<FormState> ();
-
+  Future<void> saveUserData () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", emailController.text.trim());
+    prefs.setString("password", passwordController.text.trim());
+  }
   signIn(BuildContext context) async {
     setState(() {
       isLoading = true;
@@ -38,6 +50,7 @@ class _SignInScreenState extends State<SignInScreen> {
           emailController.text.trim().toString(),
           passwordController.text.trim().toString());
       if(errorMessage == null){
+        saveUserData ();
         setState(() {
           isLoading = false;
         });
@@ -56,6 +69,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
     }
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
   }
 
   @override

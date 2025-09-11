@@ -26,11 +26,11 @@ class CustomDrawer extends StatelessWidget {
           CheckboxListTile(
               title: Text("Dark Theme"),
 
-              value: themeProvider.isDarkMode    , onChanged: (val){
+              value: themeProvider.isDarkMode ()    , onChanged: (val){
             themeProvider.toggleTheme();
           }),
 
-          SwitchListTile(value:  themeProvider.isDarkMode  , onChanged: (val){
+          SwitchListTile(value:  themeProvider.isDarkMode ()  , onChanged: (val){
             themeProvider.toggleTheme();
 
           },

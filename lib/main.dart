@@ -7,6 +7,7 @@ import 'package:group_chat_nhz/screens/chat_screen.dart';
 import 'package:group_chat_nhz/screens/pageview_welcome.dart';
 import 'package:group_chat_nhz/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,19 +21,43 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  bool isOpened =false;
+
+ Future<void> checkIfOpened () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isOpened = prefs.getBool("isOpened") ?? false ;
+    });
+    if(isOpened != true){
+      prefs.setBool("isOpened", true);
+    }
+  }
+
+  @override
+  void initState() {
+    checkIfOpened ();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      theme: themeProvider.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: themeProvider.isDarkMode() ? ThemeData.dark() : ThemeData.light(),
       // TODO: زبط الوضع تبع الدراور
 
       debugShowCheckedModeBanner: false,
-      home: StreamBuilder<User?>(
+      home: isOpened ? StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,13 +65,16 @@ class MyApp extends StatelessWidget {
           } else {
             final User? user = snapshot.data;
             if (user == null) {
-              return PageviewWelcome();
+              return WelcomeScreen();
             } else {
               return ChatScreen();
             }
           }
         },
-      ),
+      )
+      : PageviewWelcome()
+
+      ,
     );
   }
 }

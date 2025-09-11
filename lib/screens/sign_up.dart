@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/screens/chat_screen.dart';
 import 'package:neon_widgets/neon_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../auth_services.dart';
 import '../components/background_decoration.dart';
 import '../components/custom_button.dart';
@@ -17,12 +18,19 @@ class SignUpScreen extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+   Future<void> saveUserData () async {
+     final SharedPreferences prefs = await SharedPreferences.getInstance();
+     prefs.setString("email", emailController.text.trim());
+     prefs.setString("password", passwordController.text.trim());
+   }
+
   signUp(BuildContext context) async {
     if(_formKey.currentState!.validate()){
       String? errorMessage = await  _authenticationServices.signUp(
       emailController.text.trim().toString(),
           passwordController.text.trim().toString());
       if(errorMessage == null){
+        saveUserData ();
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
             (context)=>ChatScreen()), (route) => false,);
       }else{
