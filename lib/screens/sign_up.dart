@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:group_chat_nhz/screens/chat_screen.dart';
 import 'package:neon_widgets/neon_widgets.dart';
@@ -9,6 +8,9 @@ import '../components/custom_button.dart';
 import '../components/custom_text_form_field.dart';
 
 class SignUpScreen extends StatelessWidget {
+
+  static final String id = "signUp";
+
    SignUpScreen({super.key});
 
   TextEditingController emailController = TextEditingController();
@@ -31,6 +33,10 @@ class SignUpScreen extends StatelessWidget {
           passwordController.text.trim().toString());
       if(errorMessage == null){
         saveUserData ();
+        Navigator.pushNamedAndRemoveUntil(context,
+
+          ChatScreen.id
+            , (route) => false,);
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:
             (context)=>ChatScreen()), (route) => false,);
       }else{

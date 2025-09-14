@@ -7,7 +7,12 @@ import '../apis/send_message.dart';
 import '../auth_services.dart';
 import '../components/drawer.dart';
 
+
+
 class ChatScreen extends StatelessWidget {
+
+  static final String id =  "chatScreen";
+
   ChatScreen({super.key});
 
   TextEditingController messageController = TextEditingController();
@@ -53,43 +58,60 @@ class ChatScreen extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             itemCount: snapshot.data?.docs.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                padding: EdgeInsets.only(bottom: 8.0),
-                alignment: email == snapshot.data!.docs[index]['senderEmail']
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 4 / 5,
-                  ),
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: email == snapshot.data!.docs[index]['senderEmail']
-                        ? kDarkPrimary2
-                        : kLightPrimary1,
-                    borderRadius:
-                        email == snapshot.data!.docs[index]['senderEmail']
-                        ? BorderRadius.only(
-                            bottomRight: Radius.circular(20.0),
-                            bottomLeft: Radius.circular(20.0),
-                            topLeft: Radius.circular(20.0),
-                          )
-                        : BorderRadius.only(
-                            bottomRight: Radius.circular(20.0),
-                            bottomLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                          ),
-                  ),
+              return Column(
+                crossAxisAlignment:  email != snapshot.data!.docs[index]['senderEmail']
+                    ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    snapshot.data!.docs[index]['senderEmail'],
 
-                  child: Text(
-                    snapshot.data!.docs[index]['message'],
-                    style: TextStyle(
-                      color: email == snapshot.data!.docs[index]['senderEmail']
-                          ? Colors.white
-                          : Colors.black,
-                    ),
                   ),
-                ),
+                  Row(
+                    children: [
+                      Image.network( snapshot.data!.docs[index]['url'],
+
+                        height: 60,),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        alignment: email == snapshot.data!.docs[index]['senderEmail']
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 4 / 5,
+                          ),
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: email == snapshot.data!.docs[index]['senderEmail']
+                                ? kDarkPrimary2
+                                : kLightPrimary1,
+                            borderRadius:
+                                email == snapshot.data!.docs[index]['senderEmail']
+                                ? BorderRadius.only(
+                                    bottomRight: Radius.circular(20.0),
+                                    bottomLeft: Radius.circular(20.0),
+                                    topLeft: Radius.circular(20.0),
+                                  )
+                                : BorderRadius.only(
+                                    bottomRight: Radius.circular(20.0),
+                                    bottomLeft: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0),
+                                  ),
+                          ),
+
+                          child: Text(
+                            snapshot.data!.docs[index]['message'],
+                            style: TextStyle(
+                              color: email == snapshot.data!.docs[index]['senderEmail']
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
           );

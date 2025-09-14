@@ -5,6 +5,7 @@ import 'package:group_chat_nhz/components/loading_screen.dart';
 import 'package:group_chat_nhz/provider/theme_provider.dart';
 import 'package:group_chat_nhz/screens/chat_screen.dart';
 import 'package:group_chat_nhz/screens/pageview_welcome.dart';
+import 'package:group_chat_nhz/screens/sign_up.dart';
 import 'package:group_chat_nhz/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,28 +54,45 @@ class _MyAppState extends State<MyApp> {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
+
+      routes: {
+        ChatScreen.id : (_) => ChatScreen(),
+        SignUpScreen.id :(_) => SignUpScreen(),
+
+      },
       theme: themeProvider.isDarkMode() ? ThemeData.dark() : ThemeData.light(),
       // TODO: زبط الوضع تبع الدراور
 
       debugShowCheckedModeBanner: false,
-      home: isOpened ? StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingScreen();
-          } else {
-            final User? user = snapshot.data;
-            if (user == null) {
-              return WelcomeScreen();
-            } else {
-              return ChatScreen();
-            }
-          }
-        },
-      )
+      home: isOpened ? AuthenticationWrapper()
       : PageviewWelcome()
 
       ,
+    );
+  }
+}
+
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LoadingScreen();
+        } else {
+          final User? user = snapshot.data;
+          if (user == null) {
+            return WelcomeScreen();
+          } else {
+            return ChatScreen();
+          }
+        }
+      },
     );
   }
 }
